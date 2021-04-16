@@ -1,0 +1,25 @@
+{
+  "name": "first-gulp",
+  "version": "1.0.0",
+  "description": "home1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gryaznykh Dmitrij",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "del": "^6.0.0",
+    "glob": "^7.1.6",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sass-bulk-import": "^1.0.1",
+    "gulp-svg-sprite": "^1.5.0"
+  }
+}
