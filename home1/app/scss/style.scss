@@ -21,4 +21,18 @@
 //@import "dir/**/+(*--*).scss"
 @import "general/**/*.scss";
 
-
+@import "cart-button/**/!(*__*|*--*).scss";
+@import "cart-button/**/*__!(*--*).scss";
+@import "cart-button/**/+(*--*).scss";
+@import "goods-item/**/!(*__*|*--*).scss";
+@import "goods-item/**/*__!(*--*).scss";
+@import "goods-item/**/+(*--*).scss";
+@import "goods-list/**/!(*__*|*--*).scss";
+@import "goods-list/**/*__!(*--*).scss";
+@import "goods-list/**/+(*--*).scss";
+@import "header/**/!(*__*|*--*).scss";
+@import "header/**/*__!(*--*).scss";
+@import "header/**/+(*--*).scss";
+@import "page/**/!(*__*|*--*).scss";
+@import "page/**/*__!(*--*).scss";
+@import "page/**/+(*--*).scss";
