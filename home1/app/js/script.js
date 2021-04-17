@@ -11,7 +11,7 @@ const renderGoodsItem = ({title = 'Товар в пути', price= 0}) => {
 		<p>Цена: ${price}</p></div>`;
 };
 
-const renderGoodsList = (list = [{}]) => {
+const renderGoodsList = (list = []) => {
 	let goodsList = list.map(item => renderGoodsItem(item));
 	document.querySelector('.goods-list').innerHTML = goodsList.join('');
 }
