@@ -1,0 +1,4 @@
+const catalog = new GoodsList();
+
+
+
