@@ -2,10 +2,11 @@ class CartList {
     static API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
     /**
      * Конструктор
-     * @param {CartItem[]} goods
+     * @param {string} container - контейнер для товаров корзины
      */
     constructor(container = '.products') {
         this._goods = [];
+        this._container = container;
         this._fetchGoods()
             .then(() => {
                 this.render();
