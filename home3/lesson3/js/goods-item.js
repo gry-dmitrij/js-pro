@@ -1,19 +1,26 @@
-class GoodsItem {
-    constructor(product, img='https://via.placeholder.com/200x150') {
-        this.title = product.product_name;
-        this.price = product.price;
-        this.id = product.id_product;
-        this.img = img;
+class GoodsItem extends Item{
+
+    static get defaultOptions() {
+        return {
+            itemClass: 'product-item',
+            descBoxClass: 'desc',
+            titleClass: 'title',
+            textClass: 'text',
+            btnBuyClass: 'buy-btn'
+        };
     }
 
     render() {
-        return `<div class="product-item" data-id="${this.id}">
-                <img src="${this.img}" alt="Some img">
-                <div class="desc">
-                    <h3>${this.title}</h3>
-                    <p>${this.price} \u20bd</p>
-                    <button class="buy-btn">Купить</button>
-                </div>
-            </div>`;
+        return `<div class=${this.options.itemClass} data-id="${this.id}">
+                    <img src="${this.img}" alt="Some img">
+                    <div class="${this.options.descBoxClass}">
+                        <h3 class="${this.options.titleClass}">${this.title}</h3>
+                        <p class="${this.options.textClass}">${this.price} \u20bd</p>
+                        <button class="${this.options.btnBuyClass}"
+                            data-id="${this.id}"
+                            data-name="${this.title}"
+                          data-price="${this.price}">Купить</button>
+                    </div>
+                </div>`;
     }
 }

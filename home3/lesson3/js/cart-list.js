@@ -1,112 +1,99 @@
-class CartList {
-    static API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-    /**
-     * Конструктор
-     * @param {string} container - контейнер для товаров корзины
-     */
-    constructor(container = '.products') {
-        this._goods = [];
-        this._container = container;
-        this._fetchGoods()
-            .then(() => {
-                this.render();
-            })
+class CartList extends List{
+    constructor(
+        options = {},
+        container = '.cart-block',
+        url = '/getBasket.json') {
+        super(options, container, url);
     }
 
-    /**
-     * Получает товары корзины
-     * @returns {Promise<any>}
-     * @private
-     */
-    _fetchGoods() {
-        return fetch(`${CartList.API_URL}/getBasket.json`)
-            .then((response) => response.json())
-            .then((data) => {
-                data.contents.forEach(item => {
-                   this._goods.push(
-                       new CartItem(item.id_product,
-                           item.product_name,
-                           item.price,
-                           item.quantity));
-                });
+    _init(){
+        document.querySelector(
+            List.selectorFromClass(this.options.cartButtonClass))
+                .addEventListener('click', () => {
+                    document.querySelector(this._container)
+                        .classList.toggle(this.options.hideClass);
+        });
+        document.querySelector(this._container)
+            .addEventListener('click', e => {
+                if(e.target.classList.multipleContains(this.options.delBtnClass)){
+                    this.removeProduct(e.target);
+                }
             });
     }
 
-    // отрисовать
-    render() {
-        console.log(this._goods);
+    createItem(data) {
+        return new CartItem(data, this);
     }
 
-    /**
-     * Добавить товар в корзину
-     * @param {CartItem} product
-     */
-    addProduct(product) {
-        if (!(product instanceof CartItem)) return;
-        fetch(`${CartList.API_URL}/addToBasket.json`)
-            .then((response) => response.json())
+    get defaultOptions() {
+        return {
+            cartButtonClass: 'btn-cart',
+            hideClass: 'invisible'
+        }
+    }
+
+    getDefaultItemOptions() {
+        return CartItem.defaultOptions;
+    }
+
+    _handleData(data) {
+        data = data.contents;
+        super._handleData(data);
+    }
+
+    _updateCart(product){
+        let block = document.querySelector(
+            `${List.selectorFromClass(this.options.itemClass)}[data-id="${product.id}"]`);
+        block.querySelector(
+            List.selectorFromClass(this.options.countClass)).textContent = `Количество: ${product._count}`;
+        block.querySelector(
+            List.selectorFromClass(this.options.sumPriceClass)).textContent = `${product._count * product.price} ₽`;
+    }
+
+    addProduct(element) {
+        this.getJson('/addToBasket.json')
+            .then(data => {
+               if (data.result === 1) {
+                   let productId = +element.dataset.id;
+                   let product = this._goods.find(product => product.id === productId);
+                   if (product) {
+                       product._count++;
+                       this._updateCart(product);
+                   } else  {
+                       let product = this.createItem({
+                           id_product: productId,
+                           price: +element.dataset['price'],
+                           product_name: element.dataset['name'],
+                           quantity: 1
+                       });
+                       this._goods.push(product);
+                       this.render([product]);
+                   }
+               } else {
+                   alert('Ошибка!')
+               }
+            });
+    }
+
+    removeProduct(el) {
+        let index = this._goods.findIndex((item) => item.id === +el.dataset.id);
+        if (index < 0) {
+            alert('Ошибка');
+            return;
+        }
+        this.getJson('/deleteFromBasket.json')
             .then(data => {
                 if (data.result === 1) {
-                    this._goods.push(product);
-                    this.render();
+                    let product = this._goods[index];
+                    if (product._count > 1){
+                        product._count--;
+                        this._updateCart(product);
+                    } else {
+                        this._goods.splice(index, 1);
+                        document.querySelector(
+                            `${List.selectorFromClass(this.options.itemClass)}[data-id="${product.id}"]`).remove();
+                    }
                 }
             });
-
-    }
-
-    /**
-     * удалить товар из корзины
-     * @param {number} productId - id товара
-     */
-    removeProduct(productId) {
-        let index = this._goods.findIndex((item) => item.id === productId);
-        if (index < 0) return;
-        fetch(`${CartList.API_URL}/deleteFromBasket.json`)
-            .then((response) => response.json())
-            .then(data =>  {
-                if (data.result === 1) {
-                    this._goods.splice(index, 1);
-                    this.render();
-                }
-            })
-    }
-
-    // не стал переделывать, так как нет ответа от сервера
-    // /**
-    //  * увеличить кол-во товара
-    //  * @param {number} productId - id товара
-    //  * @param {number} count - кол-во добавляемого товара
-    //  */
-    // increaseProductCount(productId, count = 1) {
-    //     let product = this._getProduct(productId);
-    //     if (!product) return;
-    //     product.add(count)
-    // }
-    //
-    // /**
-    //  * уменьшить кол-во товара
-    //  * @param {number} productId - id товара
-    //  * @param {number} count - кол-во уменьшаемого товара
-    //  */
-    // decreaseProductCount(productId, count = 1) {
-    //     let product = this._getProduct(productId);
-    //     if (!product) return;
-    //     product.sub(count)
-    // }
-
-    // _getProduct(productId) {
-    //     return this._goods.find((item) => item.id === productId);
-    // }
-
-    /**
-     *
-     * @returns {number} - стоимость
-     */
-    calcSum() {
-        let sum = 0;
-        this._goods.forEach(item => {
-            sum += item.price * item.count;
-        })
-        return sum;
     }
 }

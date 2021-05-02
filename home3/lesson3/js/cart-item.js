@@ -1,50 +1,40 @@
-class CartItem {
-    constructor(id, name, price, count = 1, img = null) {
-        this._id = id;
-        this.name = name;
-        this.price = price;
-        this._count = count;
-        this.img = img;
+class CartItem extends Item{
+    constructor(
+        el,
+        list,
+        img = 'https://via.placeholder.com/50x100') {
+        super(el, list, img);
+        this._count = el.quantity;
     }
 
-    get id() {
-        return this._id;
-    }
-
-    get price() {
-        return this._price;
-    }
-
-    set price(value) {
-        // валидация
-        this._price = value;
-    }
-
-    get count() {
-        return this._count;
-    }
-
-    set count(value) {
-        // валидация
-        this._count = value
-    }
-
-    add(number) {
-        if (!Number.isInteger(number)) return;
-        this._count += number;
-    }
-
-    sub(number) {
-        this._count -= number;
-        if (this._count < 0) {
-            this._count = 0;
+    static get defaultOptions() {
+        return {
+            itemClass: 'cart-item',
+            leftBlock: 'product-bio',
+            rightBlock: 'right-block',
+            descBoxClass: 'product-desc',
+            titleClass: 'product-title',
+            countClass: 'product-quantity',
+            priceClass: 'product-single-price',
+            sumPriceClass: 'product-price',
+            delBtnClass: 'del-btn'
         }
     }
 
-    /**
-     * Отрисовать
-     */
-    render() {
-
+    render(){
+        return `<div class="${this.options.itemClass}" data-id="${this.id}">
+                    <div class="${this.options.leftBlock}">
+                        <img src="${this.img}" alt="Some image">
+                        <div class="${this.options.descBoxClass}">
+                            <p class="${this.options.titleClass}">${this.title}</p>
+                            <p class="${this.options.countClass}">Количество: ${this._count}</p>
+                            <p class="${this.options.priceClass}">${this.price} за ед.</p>
+                        </div>
+                    </div>
+                    <div class="${this.options.rightBlock}">
+                        <p class="${this.options.sumPriceClass}">${this._count*this.price} ₽</p>
+                        <button class="${this.options.delBtnClass}" data-id="${this.id}">&times;</button>
+                    </div>
+                </div>`;
     }
 }
