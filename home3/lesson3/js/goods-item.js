@@ -1,5 +1,9 @@
 class GoodsItem extends Item{
 
+    /**
+     * Опции по умолчанию
+     * @returns {Object}
+     */
     static get defaultOptions() {
         return {
             itemClass: 'product-item',
@@ -10,6 +14,10 @@ class GoodsItem extends Item{
         };
     }
 
+    /**
+     * Отрисовка товара
+     * @returns {string}
+     */
     render() {
         return `<div class=${this.options.itemClass} data-id="${this.id}">
                     <img src="${this.img}" alt="Some img">

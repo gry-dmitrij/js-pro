@@ -6,6 +6,21 @@ class CartList extends List{
         super(options, container, url);
     }
 
+    /**
+     * Опции по умолчанию
+     * @returns {Object}
+     */
+    get defaultOptions() {
+        return {
+            cartButtonClass: 'btn-cart',
+            hideClass: 'invisible'
+        }
+    }
+
+    /**
+     * Инициализация списка
+     * @private
+     */
     _init(){
         document.querySelector(
             List.selectorFromClass(this.options.cartButtonClass))
@@ -21,26 +36,37 @@ class CartList extends List{
             });
     }
 
+    /**
+     * Создает элемент списка
+     * @param {Object} data - опции для элемента списка
+     * @returns {CartItem}
+     */
     createItem(data) {
         return new CartItem(data, this);
     }
 
-    get defaultOptions() {
-        return {
-            cartButtonClass: 'btn-cart',
-            hideClass: 'invisible'
-        }
-    }
-
+    /**
+     * Опции по умолчанию для элемента списка
+     * @returns {Object}
+     */
     getDefaultItemOptions() {
         return CartItem.defaultOptions;
     }
 
-    _handleData(data) {
+    /**
+     * Обрабатывает полученные от сервера данные
+     * @param data
+     */
+    handleData(data) {
         data = data.contents;
-        super._handleData(data);
+        super.handleData(data);
     }
 
+    /**
+     * Обновляет данные товара
+     * @param {CartItem} product
+     * @private
+     */
     _updateCart(product){
         let block = document.querySelector(
             `${List.selectorFromClass(this.options.itemClass)}[data-id="${product.id}"]`);
@@ -50,6 +76,10 @@ class CartList extends List{
             List.selectorFromClass(this.options.sumPriceClass)).textContent = `${product._count * product.price} ₽`;
     }
 
+    /**
+     * Добавляет товар в корзину
+     * @param {Node} element
+     */
     addProduct(element) {
         this.getJson('/addToBasket.json')
             .then(data => {
@@ -75,6 +105,10 @@ class CartList extends List{
             });
     }
 
+    /**
+     * Удаляет товар из корзины
+     * @param {Node} el
+     */
     removeProduct(el) {
         let index = this._goods.findIndex((item) => item.id === +el.dataset.id);
         if (index < 0) {

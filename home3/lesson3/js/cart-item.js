@@ -7,6 +7,10 @@ class CartItem extends Item{
         this._count = el.quantity;
     }
 
+    /**
+     * Опции по умолчанию
+     * @returns {Object}
+     */
     static get defaultOptions() {
         return {
             itemClass: 'cart-item',
@@ -21,6 +25,10 @@ class CartItem extends Item{
         }
     }
 
+    /**
+     * Отрисовка товара
+     * @returns {string}
+     */
     render(){
         return `<div class="${this.options.itemClass}" data-id="${this.id}">
                     <div class="${this.options.leftBlock}">

@@ -8,20 +8,37 @@ class GoodsList extends List{
         this._cart = cart;
     }
 
+    /**
+     * Опции по умолчанию
+     * @returns {Object}
+     */
     get defaultOptions() {
         return {
             searchFieldClass: 'search-field'
         }
     }
 
+    /**
+     * Опции по умолчанию для элемента списка
+     * @returns {Object}
+     */
     getDefaultItemOptions() {
         return GoodsItem.defaultOptions;
     }
 
+    /**
+     * Создает элемент списка
+     * @param {Object} data - опции для элемента списка
+     * @returns {GoodsItem}
+     */
     createItem(data) {
         return new GoodsItem(data, this);
     }
 
+    /**
+     * Инициализация списка
+     * @private
+     */
     _init() {
         document.querySelector(this._container).addEventListener('click', e => {
             if (e.target.classList.multipleContains(this.options.btnBuyClass)) {
@@ -39,6 +56,10 @@ class GoodsList extends List{
 
     }
 
+    /**
+     * Фильтрация элементов
+     * @param {string} value - строка поиска
+     */
     filter(value){
         const regexp = new RegExp(value, 'i'); //
         this.filtered = this._goods.filter(product => regexp.test(product.title));

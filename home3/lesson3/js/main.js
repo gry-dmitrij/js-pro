@@ -1,5 +1,3 @@
-
-
 const basket = new CartList();
 const catalog = new GoodsList(basket);
 
