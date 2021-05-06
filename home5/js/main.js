@@ -10,7 +10,8 @@ let vm = new Vue({
           {id: 321, title: 'Товар2', price: 200}
         ],
         isVisibleCart: false,
-        searchLine: ''
+        searchLine: '',
+        filterLine: '',
     },
     components: {
         'cart': Cart,
@@ -18,7 +19,7 @@ let vm = new Vue({
     },
     methods:{
         filterGoods() {
-            console.log(this.searchLine);
+            this.filterLine = this.searchLine;
         }
     }
 })
