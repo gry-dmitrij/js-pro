@@ -45,7 +45,7 @@ const CartItem = {
         </div>`,
     computed: {
         sumPrice: function () {
-            return this.price * this.count;
+            return this.price * this.countItem;
         }
     },
     methods: {
