@@ -1,0 +1,37 @@
+[
+    {
+        "action": "del",
+        "date": "2021-05-12T12:09:21.034Z",
+        "product": "Ноутбук"
+    },
+    {
+        "action": "add",
+        "date": "2021-05-12T12:17:07.388Z",
+        "product": "Keyboard"
+    },
+    {
+        "action": "change",
+        "date": "2021-05-12T12:17:46.963Z",
+        "product": "Gamepad"
+    },
+    {
+        "action": "change",
+        "date": "2021-05-12T12:18:27.235Z",
+        "product": "Gamepad"
+    },
+    {
+        "action": "del",
+        "date": "2021-05-12T12:20:44.887Z",
+        "product": "Gamepad"
+    },
+    {
+        "action": "del",
+        "date": "2021-05-12T12:20:55.460Z",
+        "product": "Keyboard"
+    },
+    {
+        "action": "add",
+        "date": "2021-05-12T12:20:58.593Z",
+        "product": "Gamepad"
+    }
+]
